@@ -11,7 +11,6 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "product_id")
     private Long id;
 
     @Column
@@ -26,9 +25,10 @@ public class Product {
     @Column
     private Integer created;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id")
-    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "product_order",
+        joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"))
     Set<Order> orders = new HashSet<>();
 
     public Long getId() {

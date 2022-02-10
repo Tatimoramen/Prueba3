@@ -5,10 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Order{
+@Table(name = "orders")
+public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "order_id")
     private Long id;
 
     @Column(name = "created_at")
@@ -17,8 +18,8 @@ public class Order{
     @Column
     private String user;
 
-    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "orderProduct",cascade = CascadeType.ALL)
-    Set<Product> listProducts = new HashSet<>();
+    @ManyToMany(mappedBy = "orders")
+    Set<Product> products = new HashSet<>();
 
     @Column(name = "updated_at" )
     private  Integer updatedAt;
@@ -54,11 +55,11 @@ public class Order{
     }
 
     public Set<Product> getListProducts() {
-        return listProducts;
+        return products;
     }
 
-    public void setListProducts(Set<Product> listProducts) {
-        this.listProducts = listProducts;
+    public void setListProducts(Set<Product> products) {
+        this.products = products;
     }
 
     public Integer getUpdatedAt() {
