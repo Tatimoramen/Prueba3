@@ -19,7 +19,10 @@ public class Order {
     @Column
     private String user;
 
-    @ManyToMany(mappedBy = "orders")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH,CascadeType.REFRESH})
+    @JoinTable(name = "order_product",
+            joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"))
     Set<Product> products = new HashSet<>();
 
     @Column(name = "updated_at" )
@@ -37,6 +40,18 @@ public class Order {
     @PreUpdate
     private void update(){
         this.updatedAt = Instant.now().toEpochMilli();
+    }
+
+    public Order() {
+    }
+
+    public Order(Long id, Long createdAt, String user, Set<Product> products, Long updatedAt, String state) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.user = user;
+        this.products = products;
+        this.updatedAt = updatedAt;
+        this.state = state;
     }
 
     public Long getId() {

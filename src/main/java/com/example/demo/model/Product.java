@@ -2,8 +2,6 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Product {
@@ -24,15 +22,20 @@ public class Product {
     @Column
     private Long created;
 
-    @ManyToMany
-    @JoinTable(name = "product_order",
-        joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"))
-    Set<Order> orders = new HashSet<>();
-
     @PrePersist
     private void init(){
         this.created = Instant.now().toEpochMilli();
+    }
+
+    public Product() {
+    }
+
+    public Product(Long id, Double price, String name, String image, Long created) {
+        this.id = id;
+        this.price = price;
+        this.name = name;
+        this.image = image;
+        this.created = created;
     }
 
     public Long getId() {
