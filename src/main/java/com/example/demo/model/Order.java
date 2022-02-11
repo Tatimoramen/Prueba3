@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ public class Order {
     private Long id;
 
     @Column(name = "created_at")
-    private Integer createdAt;
+    private Long createdAt;
 
     @Column
     private String user;
@@ -22,13 +23,21 @@ public class Order {
     Set<Product> products = new HashSet<>();
 
     @Column(name = "updated_at" )
-    private  Integer updatedAt;
+    private  Long updatedAt;
 
     @Column
     private  String state;
 
-    @Column(name = "status" )
-    private  String status;
+    @PrePersist
+    private void init(){
+        this.updatedAt = Instant.now().toEpochMilli();
+        this.createdAt = Instant.now().toEpochMilli();
+    }
+
+    @PreUpdate
+    private void update(){
+        this.updatedAt = Instant.now().toEpochMilli();
+    }
 
     public Long getId() {
         return id;
@@ -38,11 +47,11 @@ public class Order {
         this.id = id;
     }
 
-    public Integer getCreatedAt() {
+    public Long getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Integer createdAt) {
+    public void setCreatedAt(Long createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -62,11 +71,11 @@ public class Order {
         this.products = products;
     }
 
-    public Integer getUpdatedAt() {
+    public Long getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Integer updatedAt) {
+    public void setUpdatedAt(Long updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -76,13 +85,5 @@ public class Order {
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

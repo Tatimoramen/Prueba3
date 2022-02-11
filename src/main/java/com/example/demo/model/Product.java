@@ -1,8 +1,7 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,13 +22,18 @@ public class Product {
     private String image;
 
     @Column
-    private Integer created;
+    private Long created;
 
     @ManyToMany
     @JoinTable(name = "product_order",
         joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"))
     Set<Order> orders = new HashSet<>();
+
+    @PrePersist
+    private void init(){
+        this.created = Instant.now().toEpochMilli();
+    }
 
     public Long getId() {
         return id;
@@ -63,11 +67,11 @@ public class Product {
         this.image = image;
     }
 
-    public Integer getCreated() {
+    public Long getCreated() {
         return created;
     }
 
-    public void setCreated(Integer created) {
+    public void setCreated(Long created) {
         this.created = created;
     }
 }

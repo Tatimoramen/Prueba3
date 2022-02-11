@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/person")
-
+@RequestMapping(path = "/product")
 public class ProductController {
    private final ProductService productService;
 
@@ -39,11 +38,5 @@ public class ProductController {
             Product product = productService.get(id);
             productService.delete(id);
             return ResponseEntity.ok().body(product);
-    }
-
-    @GetMapping("{id}")
-    public ResponseEntity<Product> get(@PathVariable("id") Long id){
-        Product product = productService.get(id);
-        return ResponseEntity.ok().body(product);
     }
 }
