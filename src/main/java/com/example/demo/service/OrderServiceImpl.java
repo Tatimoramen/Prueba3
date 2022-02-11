@@ -19,9 +19,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order put(Order order, Long id) {
         Order orderUpdate = this.get(id);
-        orderUpdate.setState(orderUpdate.getState());
-        orderUpdate.setUser(orderUpdate.getUser());
-        orderUpdate.setListProducts(orderUpdate.getListProducts());
+        orderUpdate.setState(order.getState());
         return this.save(orderUpdate);
     }
 

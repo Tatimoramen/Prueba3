@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.example.demo.constant.ProductState;
+
 import javax.persistence.*;
 import java.time.Instant;
 
@@ -22,20 +24,25 @@ public class Product {
     @Column
     private Long created;
 
+    @Column
+    private ProductState state;
+
     @PrePersist
     private void init(){
         this.created = Instant.now().toEpochMilli();
+        this.state = ProductState.ACTIVE;
     }
 
     public Product() {
     }
 
-    public Product(Long id, Double price, String name, String image, Long created) {
+    public Product(Long id, Double price, String name, String image, Long created, ProductState state) {
         this.id = id;
         this.price = price;
         this.name = name;
         this.image = image;
         this.created = created;
+        this.state = state;
     }
 
     public Long getId() {
@@ -77,4 +84,8 @@ public class Product {
     public void setCreated(Long created) {
         this.created = created;
     }
+
+    public ProductState getState() { return state; }
+
+    public void setState(ProductState state) { this.state = state; }
 }

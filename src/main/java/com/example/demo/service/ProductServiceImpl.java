@@ -1,10 +1,12 @@
 package com.example.demo.service;
 
+import com.example.demo.constant.ProductState;
 import com.example.demo.model.Product;
 import com.example.demo.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -34,9 +36,9 @@ public class ProductServiceImpl implements ProductService {
         assert id != null;
         Product product = this.get(id);
         if(product != null){
-            productRepository.delete(product);
+            product.setState(ProductState.INACTIVE);
+            this.save(product);
         }
-
     }
 
     @Override
@@ -48,6 +50,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> list() {
-        return productRepository.findAll();
+        return productRepository
+                .findAll()
+                .stream()
+                .filter(product -> product.getState() == ProductState.ACTIVE).collect(Collectors.toList());
     }
 }

@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.example.demo.constant.OrderState;
+
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.HashSet;
@@ -29,7 +31,7 @@ public class Order {
     private  Long updatedAt;
 
     @Column
-    private  String state;
+    private OrderState state;
 
     @PrePersist
     private void init(){
@@ -45,7 +47,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, Long createdAt, String user, Set<Product> products, Long updatedAt, String state) {
+    public Order(Long id, Long createdAt, String user, Set<Product> products, Long updatedAt, OrderState state) {
         this.id = id;
         this.createdAt = createdAt;
         this.user = user;
@@ -86,19 +88,15 @@ public class Order {
         this.products = products;
     }
 
-    public Long getUpdatedAt() {
-        return updatedAt;
-    }
+    public Long getUpdatedAt() {return updatedAt; }
 
-    public void setUpdatedAt(Long updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    public void setUpdatedAt(Long updatedAt) {this.updatedAt = updatedAt; }
 
-    public String getState() {
+    public OrderState getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(OrderState state) {
         this.state = state;
     }
 }
